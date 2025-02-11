@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',                # This is the custom context processor we created in category/context_processors.py
+                'carts.context_processors.counter',
             ],
         },
     },
