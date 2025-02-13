@@ -150,6 +150,6 @@ MESSAGE_TAGS = {
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'rajeshniure123@gmail.com'
-EMAIL_HOST_PASSWORD = 'ecommerce123'
+EMAIL_HOST_USER = 'rajeshniure567@gmail.com'
+EMAIL_HOST_PASSWORD = 'vvrp dqfj fchz wdev'
 EMAIL_USE_TLS = True
