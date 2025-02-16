@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+</header> <!-- section-header.// -->
+
+
+<section class="section-content padding-y bg">
+<div class="container">
+
+<!-- ============================ COMPONENT 1 ================================= -->
+
+<h3 class="text-center mb-10">Review Your Order and Make Payment</h3>
+<div class="row">
+	<aside class="col-lg-8">
+        <div class="card">
+            <h5 class="card-header">Billing Address</h5>
+            <div class="card-body">
+            
+              <p class="card-text mb-0">{{order.full_name}}</p>
+              <p class="card-text mb-0">{{order.full_address}}</p>
+              <p class="card-text mb-0">{{order.city}} {{order.state}}</p>
+              <p class="card-text mb-0">{{order.country}}</p>
+              <p class="card-text mb-0">{{order.email}}</p>
+              <p class="card-text mb-0">{{order.phone}}</p>
+              {% if order.order_note %}
+              <b>Order Notes:</b>{{order.order_note}}
+              {% endif %}
+            
+
+            </div>
+          </div>
+
+          <div class="card">
+            <h5 class="card-header">Payment Method</h5>
+            <div class="card-body">
+              <p class="card-text">Esewa</p>
+
+            </div>
+          </div>
+
+          <div class="card">
+            <h5 class="card-header">Review Products</h5>
+            <div class="card-body">
+                <table class="table table-borderless table-shopping-cart">
+                    <thead class="text-muted">
+                    <tr class="small text-uppercase">
+                      <th scope="col">Product</th>
+                      <th scope="col" width="120">Quantity</th>
+                      <th scope="col" width="120">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {% for cart_item in cart_items %}
+                        
+                    <tr>
+                        <td>
+                            <figure class="itemside align-items-center">
+                                <div class="aside"><img src="{{ cart_item.product.images.url }}" class="img-sm"></div>
+                                <figcaption class="info">
+                                    <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name}}</a>
+                                    
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td> 
+                           <label for="">{{cart_item.quantity}}</label>
+                        </td>
+                        <td> 
+                            <div class="price-wrap"> 
+                                <var class="price">Rs {{ cart_item.sub_total}}</var> 
+                                <small class="text-muted"> Rs {{ cart_item.product.price }} each </small> 
+                            </div> <!-- price-wrap .// -->
+                        </td>
+                       
+                    </tr>
+                    
+                    {% endfor %}
+                    </tbody>
+                    </table>
+            
+            </div>
+          </div>
+
+	</aside> <!-- col.// -->
+	<aside class="col-lg-4">
+
+		<div class="card">
+		<div class="card-body">
+			<dl class="dlist-align">
+			  <dt>Total price:</dt>
+			  <dd class="text-right">Rs{{ total }}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Tax:</dt>
+			  <dd class="text-right"> Rs{{ tax }}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Total:</dt>
+			  <dd class="text-right text-dark b"><strong>Rs{{ grand_total}}</strong></dd>
+			</dl>
+			<hr>
+			<p class="text-center mb-3">
+				<img src="{% static './images/misc/payments.png' %}" height="26">
+			</p>
+      <div class="esewa-payment">
+        <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+          <input type="hidden" name="amt" value="{{ total }}">
+          <input type="hidden" name="txAmt" value="{{ tax }}">
+          <input type="hidden" name="psc" value="0">
+          <input type="hidden" name="pdc" value="0">
+          <input type="hidden" name="tAmt" value="{{ grand_total }}">
+          <input type="hidden" name="pid" value="{{ order.order_number }}">
+          <input type="hidden" name="scd" value="{{ esewa_merchant_id }}">
+          <input type="hidden" name="su" value="{{ esewa_success_url }}">
+          <input type="hidden" name="fu" value="{{ esewa_failure_url }}">
+          
+          <button type="submit" class="btn btn-success btn-block"> Pay with eSewa </button>
+      </form>
+      </div>
+            
+		</div> <!-- card-body.// -->
+		</div> <!-- card.// -->
+
+</aside> <!-- col.// -->
+
+
+</div> <!-- row.// -->
+
+<!-- ============================ COMPONENT 1 END .// ================================= -->
+
+</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

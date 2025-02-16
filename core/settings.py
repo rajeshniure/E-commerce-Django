@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -153,3 +154,12 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rajeshniure567@gmail.com'
 EMAIL_HOST_PASSWORD = 'vvrp dqfj fchz wdev'
 EMAIL_USE_TLS = True
+
+
+
+
+ESEWA_MERCHANT_ID = '8gBm/:&EnhH.1/q'
+ESEWA_SUCCESS_URL = 'http://127.0.0.1:8000/orders/esewa_success/'
+ESEWA_FAILURE_URL = 'http://127.0.0.1:8000/orders/esewa_failure/'
+
+
