@@ -5,7 +5,9 @@ from .import views
 urlpatterns = [
     path('place_order/', views.place_order, name = 'place_order'),
     path('payments/', views.payments, name = 'payments'),
-    path('esewa_success/', views.esewa_success, name='esewa_success'),
-    path('esewa_failure/', views.esewa_failure, name='esewa_failure'),
- 
+    path('khalti/initiate/', views.khalti_initiate, name='khalti_initiate'),
+    path('khalti/return/', views.khalti_return, name='khalti_return'),
+    path('khalti-verify/', views.khalti_verify_payment, name='khalti_verify_payment'),
+    path('order_complete/', views.order_complete, name='order_complete'),
+
 ]

@@ -157,9 +157,9 @@ EMAIL_USE_TLS = True
 
 
 
-
-ESEWA_MERCHANT_ID = '8gBm/:&EnhH.1/q'
-ESEWA_SUCCESS_URL = 'http://127.0.0.1:8000/orders/esewa_success/'
-ESEWA_FAILURE_URL = 'http://127.0.0.1:8000/orders/esewa_failure/'
+KHALTI_PUBLIC_KEY = "f8ce17f2776b40e7b42d3fb391ed9386"
+KHALTI_SECRET_KEY = "9e4e859d847144d9a6e992a85c7494dc"
+KHALTI_INITIATE_URL = "https://dev.khalti.com/api/v2/epayment/initiate/"  # Use production URL in production
+SITE_WEBSITE_URL = "http://127.0.0.1:8000"  # Replace with your actual website URL
 
 

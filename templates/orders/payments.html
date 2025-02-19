@@ -36,7 +36,7 @@
           <div class="card">
             <h5 class="card-header">Payment Method</h5>
             <div class="card-body">
-              <p class="card-text">Esewa</p>
+              <p class="card-text">Khalti</p>
 
             </div>
           </div>
@@ -106,21 +106,13 @@
 			<p class="text-center mb-3">
 				<img src="{% static './images/misc/payments.png' %}" height="26">
 			</p>
-      <div class="esewa-payment">
-        <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-          <input type="hidden" name="amt" value="{{ total }}">
-          <input type="hidden" name="txAmt" value="{{ tax }}">
-          <input type="hidden" name="psc" value="0">
-          <input type="hidden" name="pdc" value="0">
-          <input type="hidden" name="tAmt" value="{{ grand_total }}">
-          <input type="hidden" name="pid" value="{{ order.order_number }}">
-          <input type="hidden" name="scd" value="{{ esewa_merchant_id }}">
-          <input type="hidden" name="su" value="{{ esewa_success_url }}">
-          <input type="hidden" name="fu" value="{{ esewa_failure_url }}">
-          
-          <button type="submit" class="btn btn-success btn-block"> Pay with eSewa </button>
+      <form action="{% url 'khalti_initiate' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_number" value="{{ order.order_number }}">
+        <button type="submit" class="btn btn-primary btn-block" style="background-color: #800080; color: white; border-radius: 10px; padding: 6px 14px; font-size: 20px; font-weight:bold;">
+          Pay with Khalti
+        </button>
       </form>
-      </div>
             
 		</div> <!-- card-body.// -->
 		</div> <!-- card.// -->
@@ -135,5 +127,67 @@
 </div> <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+
+
+
+
+
+
+<!-- 
+<script>
+  // Replace with your Khalti public key
+  var config = {
+    "publicKey": "f8ce17f2776b40e7b42d3fb391ed9386",
+    "productIdentity": "{{ order.order_number }}",
+    "productName": "Order Payment",
+    "productUrl": window.location.href,
+    "eventHandler": {
+      onSuccess (payload) {
+        console.log("Payment success", payload);
+        // After successful payment, verify on server via AJAX
+        fetch("{% url 'khalti_verify_payment' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+          },
+          body: JSON.stringify({
+            token: payload.token,
+            amount: payload.amount,
+            order_number: "{{ order.order_number }}"
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if(data.status === "success"){
+            // Payment verified – redirect to order completion page
+            window.location.href = "{% url 'order_complete' %}?order_number={{ order.order_number }}";
+          } else {
+            alert("Payment verification failed. Please try again.");
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      },
+      onError (error) {
+        console.log("Payment error", error);
+      },
+      onClose () {
+        console.log("Payment widget closed");
+      }
+    }
+  };
+
+  var checkout = new KhaltiCheckout(config);
+  document.getElementById("khalti-payment-button").onclick = function () {
+    
+    // Khalti expects the amount in paisa (i.e. Rs * 100)
+
+
+    checkout.show({amount: Math.round({{ grand_total }} * 100)});
+  }
+</script> -->
+
 
 {% endblock %}
