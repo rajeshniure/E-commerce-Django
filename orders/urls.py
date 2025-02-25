@@ -7,7 +7,8 @@ urlpatterns = [
     path('payments/', views.payments, name = 'payments'),
     path('khalti/initiate/', views.khalti_initiate, name='khalti_initiate'),
     path('khalti/return/', views.khalti_return, name='khalti_return'),
-    path('khalti-verify/', views.khalti_verify_payment, name='khalti_verify_payment'),
-    path('order_complete/', views.order_complete, name='order_complete'),
+    path('khalti/verify/', views.khalti_verify_payment, name='khalti_verify_payment'),
+    # path('order_complete/', views.order_complete, name='order_complete'),
+    path('order_complete/<str:order_number>/', views.order_complete, name='order_complete'),
 
 ]

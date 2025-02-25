@@ -1,11 +1,110 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="container">
-    <h3>Thank You for Your Order!</h3>
-    <p>Your order number is: {{ order.order_number }}</p>
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="max-age=604800" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Additional order details can be added here -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Rock Bazaar</title>
+
+<link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
+
+<!-- jQuery -->
+<script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+
+<!-- Bootstrap4 files-->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+<!-- Font awesome 5 -->
+<link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+
+<!-- custom style -->
+<link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+
+<!-- custom javascript -->
+<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+
+<script src="https://khalti.com/static/khalti-checkout.js"></script>
+
+<script type="text/javascript">
+/// some script
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+}); 
+// jquery end
+</script>
+
+</head>
+<body>
+    <div class="container" style="margin-top: 50px;">
+        <center><i class="fas fa-check-circle" style="font-size: 72px;margin-bottom: 20px;color: #28A745;"></i></center>
+        <h2 class="text-center">Payment Successful</h2>
+        <br>
+        <div class="text-center">
+            <a href="{% url 'store' %}" class="btn btn-success">Shop more</a>
+        </div>
+    </div>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="invoice-logo" style="text-align: center;">
+            <img src="{% static '/images/Rock Bazaar.png' %}" alt="Invoice logo" style="max-height: 40px; display: block; margin: 0 auto;">
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>📜 Order Details</h5>
+                    <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+                    <p><strong>Order Date:</strong> {{ order.created_at|date:"F d, Y" }}</p>
+                    <p><strong>Status:</strong> <span class="badge bg-info">{{ order.status }}</span></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>🛒 Billed To</h5>
+                    <p><strong>{{ order.full_name }}</strong></p>
+                    <p>{{ order.full_address }}</p>
+                    <p>{{ order.city }}, {{ order.state }}, {{ order.country }}</p>
+                    <p><strong>Email:</strong> {{ order.email }}</p>
+                    <p><strong>Phone:</strong> {{ order.phone }}</p>
+                </div>
+            </div>
+
+
+            <h5 class="mt-4">💳 Payment Details</h5>
+            <table class="table table-borderless">
+                <tr>
+                    <td><strong>Payment Method:</strong></td>
+                    <td>{{ order.payment.payment_method }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Transaction ID:</strong></td>
+                    <td>{{ order.payment.payment_id }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Payment Status:</strong></td>
+                    <td><span class="badge bg-success">{{ order.payment.status }}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Amount Paid:</strong></td>
+                    <td>Rs. {{ order.payment.amount_paid }}</td>
+                </tr>
+            </table>
+
+            <div class="text-end mt-4">
+                <h4><strong>Total Amount: Rs. {{ order.order_total }}</strong></h4>
+                <p class="text-muted">Including Tax: Rs. {{ order.tax }}</p>
+            </div>
+        </div>
+
+    </div>
 </div>
-{% endblock %}
-
-
+</body>
+</html>

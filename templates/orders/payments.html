@@ -99,7 +99,7 @@
 			  <dd class="text-right"> Rs{{ tax }}</dd>
 			</dl>
 			<dl class="dlist-align">
-			  <dt>Total:</dt>
+			  <dt>Grand total:</dt>
 			  <dd class="text-right text-dark b"><strong>Rs{{ grand_total}}</strong></dd>
 			</dl>
 			<hr>
@@ -131,6 +131,7 @@
 
 
 
+{% endblock %}
 
 
 
@@ -188,6 +189,3 @@
     checkout.show({amount: Math.round({{ grand_total }} * 100)});
   }
 </script> -->
-
-
-{% endblock %}

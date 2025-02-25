@@ -52,6 +52,9 @@ class Order(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+    def __str__(self):
+        return self.order_number
 
 
 class OrderProduct(models.Model):
@@ -67,8 +70,5 @@ class OrderProduct(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.product.product_name
+        return self.product
     
-    
-        
-        

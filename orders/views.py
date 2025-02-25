@@ -154,7 +154,8 @@ def khalti_return(request):
         # (Optional) Process cart items to create OrderProduct entries.
         
         # Redirect to an order confirmation page
-        return redirect("order_complete")  # Ensure you have an 'order_complete' URL/view
+        # return redirect("order_complete")  # Ensure you have an 'order_complete' URL/view
+        return redirect('order_complete', order_number=order.order_number)
     else:
         return HttpResponse("Payment verification failed. Status: " + lookup_result.get("status", "Unknown"))
 
@@ -211,23 +212,29 @@ from django.shortcuts import render
 
 
 
-def order_complete(request):
-   # Your view logic here
-    return render(request, 'orders/order_complete.html')
-
-
 # def order_complete(request):
-#     order_number = request.GET.get("order_number")  # Retrieve order_number from query params
-#     try:
-#         order = Order.objects.get(order_number=order_number, is_ordered=True)
-#         order_products = OrderProduct.objects.filter(order=order)
-#         payment = Payment.objects.get(order=order)
+#    # Your view logic here
+#     return render(request, 'orders/order_complete.html')
 
-#         context = {
-#             "order": order,
-#             "order_products": order_products,
-#             "payment": payment,
-#         }
-#         return render(request, "orders/order_complete.html", context)
-#     except Order.DoesNotExist:
-#         return redirect("store") 
+def order_complete(request, order_number):
+    try:
+        order = get_object_or_404(Order, order_number=order_number, is_ordered=True)
+        order_products = OrderProduct.objects.filter(order=order)
+        payment = order.payment
+        
+        subtotal = sum(item.product_price * item.quantity for item in order_products)
+        tax = order.tax
+        grand_total = order.order_total
+        
+        context = {
+            'order': order,
+            'order_products': order_products,
+            'payment': payment,
+            'subtotal': subtotal,
+            'tax': tax,
+            'grand_total': grand_total,
+        }
+        return render(request, 'orders/order_complete.html', context)
+    except Order.DoesNotExist:
+        return render(request, 'orders/order_not_found.html')
+
